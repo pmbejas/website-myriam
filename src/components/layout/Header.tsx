@@ -11,20 +11,55 @@ import {
   Gift,
   ShoppingBag,
   Heart,
+  Menu,
+  X,
+  ArrowRight,
+  Phone,
 } from "lucide-react";
 import { useCarritoStore } from "@/store/useCarritoStore";
 
 const NAV_ITEMS = [
-  { id: "inicio", href: "/#inicio", label: "Inicio", icon: Home },
-  { id: "concepto", href: "/#concepto", label: "La Experiencia", icon: Sparkles },
-  { id: "galeria", href: "/#galeria", label: "Portfolio", icon: Images },
-  { id: "servicios", href: "/#servicios", label: "Cotizador", icon: Wand2 },
-  { id: "tienda", href: "/#tienda", label: "Objetos de Mesa", icon: Gift },
+  {
+    id: "inicio",
+    href: "/#inicio",
+    label: "Inicio",
+    subtitulo: "Portada & bienvenida",
+    icon: Home,
+  },
+  {
+    id: "concepto",
+    href: "/#concepto",
+    label: "La Experiencia",
+    subtitulo: "Los 5 sentidos & dirección estética",
+    icon: Sparkles,
+  },
+  {
+    id: "galeria",
+    href: "/#galeria",
+    label: "Portfolio",
+    subtitulo: "Galería de eventos reales",
+    icon: Images,
+  },
+  {
+    id: "servicios",
+    href: "/#servicios",
+    label: "Cotizador & Servicios",
+    subtitulo: "Estilismo de mesas y vidrieras",
+    icon: Wand2,
+  },
+  {
+    id: "tienda",
+    href: "/#tienda",
+    label: "Objetos de Mesa",
+    subtitulo: "Tienda boutique de piezas de mesa",
+    icon: Gift,
+  },
 ];
 
 export function Header() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { alternarDrawer, obtenerCantidadTotal } = useCarritoStore();
   const [mounted, setMounted] = useState(false);
 
@@ -43,6 +78,18 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Bloquear scroll de fondo cuando el menú móvil está abierto
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMobileMenuOpen]);
+
   const totalItems = mounted ? obtenerCantidadTotal() : 0;
 
   return (
@@ -54,8 +101,10 @@ export function Header() {
         style={{ width: `${scrollProgress}%` }}
       />
 
-      {/* Menú Flotante de Tamaño Fijo (Fondo #705064 · Iconos #F0D9D8 · Etiquetas Flotantes Inferiores) */}
-      <div className="fixed top-4 left-0 right-0 z-40 flex justify-center px-3 pointer-events-none">
+      {/* ========================================================================= */}
+      {/* 1. VERSIÓN DESKTOP / TABLET (>= md): Dock flotante fijo con tooltips */}
+      {/* ========================================================================= */}
+      <div className="fixed top-4 left-0 right-0 z-40 hidden md:flex justify-center px-3 pointer-events-none">
         <motion.header
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -216,6 +265,164 @@ export function Header() {
           </a>
         </motion.header>
       </div>
+
+      {/* ========================================================================= */}
+      {/* 2. VERSIÓN MÓVIL (< md): Barra cápsula compacta + Drawer Desplegable */}
+      {/* ========================================================================= */}
+      <div className="fixed top-3 left-0 right-0 z-40 flex md:hidden justify-center px-3 pointer-events-none">
+        <motion.div
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="pointer-events-auto flex items-center justify-between w-full max-w-md px-4 py-2 rounded-full bg-[#705064]/95 backdrop-blur-md border border-[#F0D9D8]/25 shadow-[0_12px_30px_rgba(74,32,43,0.35)]"
+        >
+          {/* Logo / Monograma Móvil */}
+          <Link
+            href="/#inicio"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="flex items-center gap-2 text-[#F0D9D8]"
+            aria-label="Myriam Depetris - Inicio"
+          >
+            <span className="font-serif text-lg font-bold tracking-tight text-[#F0D9D8]">
+              M<span className="italic text-[#D3A3A5]">D.</span>
+            </span>
+            <span className="font-serif text-xs text-[#F0D9D8]/95 font-medium">
+              Myriam Depetris
+            </span>
+          </Link>
+
+          {/* Acciones Rápidas Móviles: Carrito + Botón Menú */}
+          <div className="flex items-center gap-2">
+            {/* Botón Carrito */}
+            <button
+              type="button"
+              onClick={alternarDrawer}
+              className="relative flex items-center justify-center w-9 h-9 rounded-full text-[#F0D9D8] hover:bg-white/10 transition-colors"
+              aria-label="Abrir carrito de compras"
+            >
+              <ShoppingBag className="w-[18px] h-[18px] text-[#F0D9D8]" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-[#632D3E] text-[#FFF9EE] border border-[#F0D9D8]/60 text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+
+            {/* Botón Toggle Menú */}
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="flex items-center justify-center w-9 h-9 rounded-full bg-white/15 text-[#F0D9D8] hover:bg-white/25 transition-colors"
+              aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-5 h-5 text-[#F0D9D8]" />
+              ) : (
+                <Menu className="w-5 h-5 text-[#F0D9D8]" />
+              )}
+            </button>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Modal / Drawer Desplegable del Menú Móvil */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <div className="fixed inset-0 z-50 md:hidden overflow-y-auto">
+            {/* Backdrop con desenfoque suave */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 bg-[#170C11]/75 backdrop-blur-md"
+            />
+
+            {/* Contenedor del Menú Flotante Móvil */}
+            <div className="min-h-full flex items-start justify-center p-3 pt-16">
+              <motion.div
+                initial={{ opacity: 0, y: -20, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.96 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="relative w-full max-w-sm bg-[#FBF8F5] rounded-3xl shadow-2xl border border-[#D7C5BA] overflow-hidden flex flex-col"
+              >
+                {/* Cabecera del Panel Móvil */}
+                <div className="p-4 px-5 bg-[#F5EFE7] border-b border-[#D7C5BA] flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <span className="font-serif text-lg font-bold text-[#4A202B]">
+                      M<span className="italic text-[#632D3E]">D.</span>
+                    </span>
+                    <span className="h-4 w-[1px] bg-[#D7C5BA]" />
+                    <span className="font-serif text-xs text-[#705064] uppercase tracking-wider font-semibold">
+                      Menú de Navegación
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="p-1.5 text-[#705064] hover:text-[#4A202B] rounded-full hover:bg-[#F0D9D8]/50 transition-colors"
+                    aria-label="Cerrar menú"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Lista de Secciones con Iconos y Subtítulos */}
+                <nav className="p-3 sm:p-4 space-y-1 overflow-y-auto max-h-[60vh]">
+                  {NAV_ITEMS.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <Link
+                        key={item.id}
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center justify-between p-3 rounded-2xl hover:bg-[#F0D9D8]/45 transition-colors group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-xl bg-[#F5EFE7] border border-[#D7C5BA]/70 flex items-center justify-center text-[#632D3E] group-hover:bg-[#632D3E] group-hover:text-[#FFF9EE] transition-colors shrink-0">
+                            <Icon className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <p className="font-serif text-base text-[#4A202B] font-medium leading-tight group-hover:text-[#632D3E] transition-colors">
+                              {item.label}
+                            </p>
+                            <p className="text-[11px] text-[#705064] mt-0.5">
+                              {item.subtitulo}
+                            </p>
+                          </div>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-[#705064] group-hover:text-[#632D3E] group-hover:translate-x-0.5 transition-all shrink-0" />
+                      </Link>
+                    );
+                  })}
+                </nav>
+
+                {/* Acciones de Contacto & Botón Borgoña Principal */}
+                <div className="p-4 bg-[#F5EFE7] border-t border-[#D7C5BA] space-y-2.5">
+                  <a
+                    href="/#contacto"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-full py-3 rounded-full text-xs uppercase tracking-[0.14em] font-semibold bg-[#632D3E] text-[#FFF9EE] hover:bg-[#521827] transition-all shadow-md flex items-center justify-center gap-2"
+                  >
+                    <Heart className="w-3.5 h-3.5 text-[#D3A3A5]" />
+                    <span>Contame de tu evento ↗</span>
+                  </a>
+
+                  <a
+                    href="https://wa.me/5493816408395"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-2.5 rounded-full text-xs uppercase tracking-[0.12em] font-medium text-[#4A202B] border border-[#D7C5BA] hover:bg-white transition-colors flex items-center justify-center gap-2"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-[#632D3E]" />
+                    <span>WhatsApp Directo</span>
+                  </a>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
