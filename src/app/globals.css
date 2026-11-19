@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Paleta Oficial Dusty Rose & Burgundy (Myriam Depetris) */
+  --color-neutro-fondo: #FBF8F5;       /* Crema claro / Fondos limpios */
+  --color-neutro-superficie: #F0D9D8;  /* Soft Blush / Tarjetas secundarias y descansos */
+  --color-base: #F5EFE7;               /* Fondo base cálido institucional */
+  --color-texto-principal: #4A202B;    /* Ink cálido profundo (contraste alto) */
+  --color-texto-secundario: #5E2D3D;   /* Deep Plum oscuro de alta legibilidad */
+  --color-contraste: #632D3E;          /* Burgundy / Botones y CTAs principales */
+  --color-contraste-hover: #521827;    /* Burgundy profundo en hover */
+  --color-acento: #D3A3A5;             /* Dusty Rose / Foco, badges y micro-interacciones */
+  --color-acento-secundario: #B18C9B;  /* Muted Mauve / Bordes activos y detalles */
+  --color-borde: #D7C5BA;              /* Borde arena sutil */
+
+  /* Escala Tipográfica Áurea (base 16px × 1,618) */
+  --texto-auxiliar: 0.75rem;           /* 12px */
+  --texto-cuerpo: 1rem;                /* 16px */
+  --titulo-h3: 1.625rem;               /* 26px */
+  --titulo-h2: 2.625rem;               /* 42px */
+  --titulo-h1: 4.25rem;                /* 68px */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-base);
+  color: var(--color-texto-principal);
+  font-family: var(--font-dm-sans), system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-contraste);
+  color: #FFF9EE;
+}
+
+/* Animación Ken Burns suave para fotos del Hero */
+@keyframes slowZoom {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+.animate-slow-zoom {
+  animation: slowZoom 18s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-slow-zoom {
+    animation: none;
+  }
+}
+
+/* Scrollbar refinada y estética */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-acento);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-contraste);
+}
