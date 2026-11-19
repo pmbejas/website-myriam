@@ -170,7 +170,7 @@ export function SobreMyriam() {
       </div>
 
       {/* BLOQUE 2: La Experiencia ("El arte de sentir y recibir" + Acordeón del modelo HTML) */}
-      <div id="propuesta" className="py-12 lg:py-16 px-4 sm:px-6 lg:px-8 bg-[#FBF8F5]">
+      <div id="propuesta" className="py-12 lg:py-16 px-4 sm:px-6 lg:px-8 bg-[#FBF8F5] overflow-hidden">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Fotografía Real Vertical Optimizada */}
           <motion.div

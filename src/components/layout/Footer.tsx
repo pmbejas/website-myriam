@@ -3,7 +3,7 @@ import { Instagram, Mail, Phone, Heart } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-[#4A202B] text-[#FBF8F5] pt-16 pb-12 border-t border-[#632D3E]">
+    <footer className="bg-[#4A202B] text-[#FBF8F5] pt-16 pb-12 border-t border-[#632D3E] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 pb-12 border-b border-[#705064]/50">
           {/* Columna Marca */}

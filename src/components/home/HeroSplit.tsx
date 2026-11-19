@@ -140,13 +140,13 @@ export function HeroSplit() {
             className="pt-6 border-t border-[#D7C5BA] space-y-4 max-w-xl"
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
                 {HERO_SLIDES.map((slide, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setCurrentSlide(idx)}
-                    className={`relative w-12 h-12 rounded-xl overflow-hidden border-2 transition-all duration-300 ${
+                    className={`relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden border-2 transition-all duration-300 shrink-0 ${
                       currentSlide === idx
                         ? "border-[#632D3E] scale-110 shadow-md ring-2 ring-[#D3A3A5]"
                         : "border-white/80 opacity-60 hover:opacity-100"
@@ -177,10 +177,10 @@ export function HeroSplit() {
             <div className="pt-1">
               <a
                 href="#servicios"
-                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-xs uppercase tracking-[0.14em] font-semibold bg-[#632D3E] text-[#FFF9EE] hover:bg-[#521827] transition-all transform hover:-translate-y-0.5 shadow-md group"
+                className="inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full text-[11px] sm:text-xs uppercase tracking-[0.11em] sm:tracking-[0.14em] font-semibold bg-[#632D3E] text-[#FFF9EE] hover:bg-[#521827] transition-all transform hover:-translate-y-0.5 shadow-md group max-w-full text-center"
               >
-                <Sparkles className="w-3.5 h-3.5 text-[#D3A3A5] group-hover:rotate-12 transition-transform" />
-                <span>Visitá nuestras propuestas & cotizador online ↗</span>
+                <Sparkles className="w-3.5 h-3.5 text-[#D3A3A5] group-hover:rotate-12 transition-transform shrink-0" />
+                <span className="truncate sm:whitespace-normal">Visitá nuestras propuestas & cotizador online ↗</span>
               </a>
             </div>
           </motion.div>

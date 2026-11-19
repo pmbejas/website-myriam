@@ -43,7 +43,7 @@ export function BookingCTA() {
   return (
     <section
       id="contacto"
-      className="py-24 px-4 sm:px-6 lg:px-8 bg-[#F0D9D8]/35 border-t border-[#D7C5BA]"
+      className="py-24 px-4 sm:px-6 lg:px-8 bg-[#F0D9D8]/35 border-t border-[#D7C5BA] overflow-hidden"
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         {/* Columna Izquierda: Textos Originales del Modelo HTML V15 */}

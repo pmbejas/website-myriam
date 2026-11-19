@@ -53,7 +53,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full overflow-x-hidden">
       {/* 1. Hero Split Screen con Slideshow Real */}
       <HeroSplit />
 

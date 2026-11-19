@@ -31,10 +31,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${playfair.variable} ${dmSans.variable}`}>
-      <body className="min-h-screen flex flex-col antialiased">
+    <html lang="es" className={`${playfair.variable} ${dmSans.variable} overflow-x-hidden`}>
+      <body className="min-h-screen flex flex-col antialiased overflow-x-hidden w-full relative">
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 w-full overflow-x-hidden">{children}</main>
         <Footer />
         <CartDrawer />
         <SoundControl />
